@@ -1,25 +1,27 @@
-const { merge } = require('webpack-merge');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
-const commonConfig = require('./webpack.common');
+const { merge } = require("webpack-merge");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
+const commonConfig = require("./webpack.common");
 
 const devConfig = {
-  mode: 'development',
+  mode: "development",
   devServer: {
     port: 8080,
     historyApiFallback: {
-      index: 'index.html',
+      index: "index.html",
     },
   },
   plugins: [
     new ModuleFederationPlugin({
-      name: 'container',
+      name: "container",
       remotes: {
-        marketing: 'marketing@http://localhost:8081/remoteEntry.js',
+        marketing: "marketing@http://localhost:8081/remoteEntry.js",
+        dashboard: "dashboard@http://localhost:8082/remoteEntry.js",
+        productsApp: "products@http://localhost:8083/remoteEntry.js",
       },
     }),
     new HtmlWebpackPlugin({
-      template: './public/index.html',
+      template: "./public/index.html",
     }),
   ],
 };
