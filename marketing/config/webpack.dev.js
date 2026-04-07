@@ -8,7 +8,7 @@ const devConfig = {
   devServer: {
     port: 8081,
     historyApiFallback: {
-      index: "index.html", // Serve index.html for all routes to support client-side routing
+      index: "/index.html", // Serve index.html for all routes to support client-side routing
     },
   },
   plugins: [
