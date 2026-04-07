@@ -1,14 +1,14 @@
 const { merge } = require("webpack-merge");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
 const commonConfig = require("./webpack.common");
+const { dependencies } = require("../package.json");
 
 const devConfig = {
   mode: "development",
   devServer: {
     port: 8081,
     historyApiFallback: {
-      index: "index.html",
+      index: "index.html", // Serve index.html for all routes to support client-side routing
     },
   },
   plugins: [
@@ -18,14 +18,7 @@ const devConfig = {
       exposes: {
         "./MarketingApp": "./src/bootstrap",
       },
-      shared: {
-        faker: {
-          singleton: true, // Ensure only one instance of faker is loaded
-        },
-      },
-    }),
-    new HtmlWebpackPlugin({
-      template: "./public/index.html",
+      shared: dependencies, // Share all dependencies from package.json with singleton option to ensure only one instance is loaded
     }),
   ],
 };

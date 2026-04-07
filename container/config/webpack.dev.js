@@ -1,7 +1,7 @@
 const { merge } = require("webpack-merge");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
 const commonConfig = require("./webpack.common");
+const { dependencies } = require("../package.json");
 
 const devConfig = {
   mode: "development",
@@ -19,9 +19,7 @@ const devConfig = {
         dashboard: "dashboard@http://localhost:8082/remoteEntry.js",
         productsApp: "products@http://localhost:8083/remoteEntry.js",
       },
-    }),
-    new HtmlWebpackPlugin({
-      template: "./public/index.html",
+      shared: dependencies, // Share all dependencies from package.json with singleton option to ensure only one instance is loaded
     }),
   ],
 };
