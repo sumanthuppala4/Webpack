@@ -1,15 +1,23 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 
-import MarketingApp from "./components/MarketingApp";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+
 import Header from "./components/Header";
-import { BrowserRouter } from "react-router-dom";
+
+const MarketingApp = lazy(() => import("./components/MarketingApp"));
+const AuthApp = lazy(() => import("./components/AuthApp"));
 
 export default () => {
   return (
     <BrowserRouter>
       <div>
         <Header />
-        <MarketingApp />
+        <Suspense fallback={<div>Loading...</div>}>
+          <Switch>
+            <Route path="/auth" component={AuthApp} />
+            <Route path="/" component={MarketingApp} />
+          </Switch>
+        </Suspense>
       </div>
     </BrowserRouter>
   );
